@@ -12,14 +12,9 @@ class TaskList(models.Model):
 class Tag(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
-    count = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.name
-
-    def get_count(self):
-        count = Task.objects.filter(tags__id = self.id).count()
-        return count
 
 
 class Task(models.Model):
@@ -42,7 +37,7 @@ class Task(models.Model):
     activity_type = models.CharField(max_length=2, choices=Activity.choices, default=Activity.indoors)
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.open)
     tasklist = models.ForeignKey(TaskList, on_delete=models.CASCADE)
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, related_name='tagged')
 
 
 

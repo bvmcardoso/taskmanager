@@ -12,7 +12,10 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = [ 'id', 'title', 'notes', 'priority', 'remind_me_on', 'activity_type', 'status', 'tasklist', 'tags']
 
 class TagSerializer(serializers.ModelSerializer):
+    count = serializers.IntegerField(source='tagged.count', read_only=True)
+
     class Meta:
         model = Tag
         fields = ['id', 'name', 'count']
         read_only_fields = ['count']
+        
